@@ -118,13 +118,16 @@ class SplenderBot:
     def UpdateTokens(self, gameState, tokens):
         for token in tokens:
             gameState.AddToken(token)
+        return gameState
         
 
     def ReserveCard(self, gameState, card):
         gameState.RemoveCard(card)
         gameState.Reserve(gameState.GetTurn(), card)
+        return gameState
 
     
     def PurchaseCard(self,gameState, card):
         gameState.RemoveCard(card)
         gameState.Purchase(gameState.GetTurn(), card)
+        return gameState
