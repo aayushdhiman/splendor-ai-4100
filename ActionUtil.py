@@ -1,6 +1,6 @@
 from itertools import combinations
 
-class SplenderBot:
+class Actions:
 
     TOKEN_TYPES = ['green', 'blue', 'red', 'white', 'black', 'yellow']
     POSSIBLE_ACTIONS = ['take_3', 'take_2', 'reserve', 'purchase', 'do_nothing']
@@ -96,7 +96,8 @@ class SplenderBot:
 
 
 
-    def Result(self, gameState, action):
+class Result:
+    def ParseAction( gameState, action):
         action =  {
         'type': 'aaa',
         'params': 'tokens'
@@ -131,3 +132,4 @@ class SplenderBot:
         gameState.RemoveCard(card)
         gameState.Purchase(gameState.GetTurn(), card)
         return gameState
+

@@ -1,22 +1,26 @@
 class card:
 
-        def __init__(self, prestige, cost, color, tire):
+        def __init__(self, prestige, cost, color, tier):
                 """
                 """
-                self.prestige = prestige
-                self.cost = cost
-                self.color = color
-                self.tire = tire
+                self._prestige = prestige
+                self._cost = cost
+                self._color = color
+                self._tier = tier
 
-        def getPrestige(self):
-                return self.prestige
+        @property
+        def prestige(self):
+                return self._prestige
+        @property
+        def cost(self):
+                return self._cost
+        @property
+        def color(self):
+                return self._color
+        @property
+        def tier(self):
+                return self._tier
 
-        def getCost(self):
-                return self.cost
-
-        def getColor(self):
-                return self.color
-        
-        def getTire(self):
-                return self.tire
+        def __repr__(self) -> str:
+                return "Tier " + str(self.tier) + " " + self.color + " card "
 

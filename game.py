@@ -1,32 +1,58 @@
-import card
-import individualCard
-import gameState
+import Tier1Deck 
+ 
+import ActionUtil
+from ActionUtil import Result
 
 class game:
 
-        def __init__(self, gameState):
+        def __init__(self):
                 """
                 
                 """
-                self.truns = True
-                self.gameState = state
+                self.turns = True
+
+                tier1deck = Tier1Deck.Tier1Deck()
+                tier1deck.Shuffle()
+                tier1Pool = []
+                for card in tier1deck.deck[:3]:
+                        tier1deck.RemoveFromDeck(card)
+                        tier1Pool.append(card)
+
+                self.gameState = state(
+                        {
+                                'white': 7, 'blue': 7, 'green': 7, 'red': 7, 'black': 7
+                        },
+                        [tier1Pool,tier1Pool,tier1Pool],
+                        tier1deck,
+                        tier1deck,
+                        tier1deck,
+                        [],
+                        []
+
+                )
                 self.gameOver = False
+                  
 
 
         def getGameState(self):
                 return self.gameState
         
         def getTurns(self):
-                return self.truns
+                return self.turns
         
         def updateTurns(self):
                 self.turns = not self.turns
+
+        def takeAction(self,action):
+                Result.ParseAction(self.gameState, action)
 
         
         def isOver(self, gameState):
                 if gameState.getPlayerhand.getPrestige >= 15 or \
                         gameState.getComputerHand.getPrestige >= 15:
                         self.gameOver = True
+ 
+                
 
 
 
@@ -57,6 +83,19 @@ class state:
         def getComputerHand(self):
                 return self.computerHand
 
+        
+        def __repr__(self):
+                return "Current Game State: \n\n" + "Current Pool: " + \
+                        "\n     White: " + str(self.pool['white']) + \
+                        "\n     Blue: " + str(self.pool['blue']) + \
+                        "\n     Green: " + str(self.pool['green']) + \
+                        "\n     Red: " + str(self.pool['red']) + \
+                        "\n     Black: " + str(self.pool['black']) + \
+                        "\n\nCurrent Table: " + \
+                        "\n     Tier 1: " + " ".join([str(card) for card in self.table[0]]) +  \
+                        "\n     Tier 2: " + " ".join([str(card) for card in self.table[1]])   + \
+                        "\n     Tier 3: " + " ".join([str(card) for card in self.table[2]]) 
+
 
 class hand:
         
@@ -75,3 +114,6 @@ class hand:
 
         def updateHand(self, action):
                 pass
+              
+newGame = game()
+print(newGame.gameState)
