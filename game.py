@@ -27,9 +27,9 @@ class game:
                                 'white': 7, 'blue': 7, 'green': 7, 'red': 7, 'black': 7
                         },
                         [tier1Pool,tier1Pool,tier1Pool],
-                        tier1deck,
-                        tier1deck,
-                        tier1deck,
+                        [card for card in tier1deck],
+                        [card for card in tier1deck],
+                        [card for card in tier1deck],
                         examplePlayerHand,
                         hand()
 
@@ -55,14 +55,74 @@ class game:
                 if gameState.getPlayerhand.getPrestige >= 15 or \
                         gameState.getComputerHand.getPrestige >= 15:
                         self.gameOver = True
+
+        def ParseAction(self, gameState, action):
+                action =  {
+                'type': 'aaa',
+                'params': 'tokens'
+                }
+                if action['type'] == 'take_3' or action['type'] == 'take_2':
+                        gameState = self.UpdateTokens(gameState, action['params'])
+                elif action['type'] == 'reserve':
+                        gameState = self.ReserveCard(gameState, action['params'])
+                elif action['type'] == 'purchase':
+                        gameState = self.PurchaseCard(gameState, action['params'])
+                else:
+                        gameState = gameState
+
+                return gameState
+        
+        def UpdateTokens(self, gameState, tokens):
+                for token in tokens:
+                        gameState.AddToken(token)
+                return gameState
+        
+
+        def ReserveCard(self, gameState, origin, location):
+                
+                if(origin == "from_table"):
+                        card = gameState.GetCardAtTableLocation(location)
+                        gameState.RemoveCardFromTable(card)
+                        gameState.Reserve(self.turns, card)
+                return gameState
+
+        def PurchaseCard(self,gameState, card):
+                gameState.RemoveCardFromPool(card)
+                gameState.Purchase(gameState.GetTurn(), card)
+                return gameState
+
  
                 
 
 
+class hand:
+        
+        def __init__(self):
+                self.deck = []
+                self.reservePile = []
+                self.token = {}
+                self.prestigePoint = 0
+
+        
+        def getDeck(self):
+                return self.deck
+        
+        def getPrestige(self):
+                return self.prestigePoint
+
+
+        def AddCard(self, card):
+                self.deck.append(card)
+                self.prestigePoint += card.prestige
+
+        def ReserveCard(self, card):
+                self.reservePile.append(card)
+
+ 
 
 class state:
 
-        def __init__(self, pool, table, deck1, deck2, deck3, playerHand, computerHand):
+        def __init__(self, pool : dict, table : list, deck1 : list, deck2 : list, deck3 : list, playerHand : hand, computerHand : hand):
                 """
                 
                 """
@@ -87,6 +147,15 @@ class state:
         def getComputerHand(self):
                 return self.computerHand
 
+        def GetCardAtTableLocation(self, location):
+                if(location[0] == 0):
+                        return self.deck1[location[1]]
+                if(location[0] == 1):
+                        return self.deck2[location[1]]
+                if(location[0] == 2):
+                        return self.deck3[location[1]]
+
+
         
         def __repr__(self):
                 return "Current Game State: \n\n" + "Current Pool: " + \
@@ -103,25 +172,5 @@ class state:
                         "\n\nComputer hand:" + "".join(["\n       " + str(card) for card in self.computerHand.getDeck()]) + "\n       Current Prestige:" + str(self.computerHand.getPrestige()) 
 
 
-class hand:
-        
-        def __init__(self):
-                self.deck = []
-                self.token = {}
-                self.prestigePoint = 0
-
-        
-        def getDeck(self):
-                return self.deck
-        
-        def getPrestige(self):
-                return self.prestigePoint
-
-
-        def AddCard(self, card):
-                self.deck.append(card)
-                self.prestigePoint += card.prestige
-
- 
 newGame = game()
 print(newGame.gameState)
