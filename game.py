@@ -14,9 +14,13 @@ class game:
                 tier1deck = Tier1Deck.Tier1Deck()
                 tier1deck.Shuffle()
                 tier1Pool = []
+
                 for card in tier1deck.deck[:3]:
                         tier1deck.RemoveFromDeck(card)
                         tier1Pool.append(card)
+
+                examplePlayerHand = hand()
+                examplePlayerHand.AddCard(tier1deck.deck[5])
 
                 self.gameState = state(
                         {
@@ -26,8 +30,8 @@ class game:
                         tier1deck,
                         tier1deck,
                         tier1deck,
-                        [],
-                        []
+                        examplePlayerHand,
+                        hand()
 
                 )
                 self.gameOver = False
@@ -67,8 +71,8 @@ class state:
                 self.deck1 = deck1
                 self.deck2 = deck2
                 self.deck3 = deck3
-                self.playerHand = hand
-                self.computerHand = hand
+                self.playerHand = playerHand
+                self.computerHand = computerHand
 
 
         def getPool(self):
@@ -92,15 +96,17 @@ class state:
                         "\n     Red: " + str(self.pool['red']) + \
                         "\n     Black: " + str(self.pool['black']) + \
                         "\n\nCurrent Table: " + \
-                        "\n     Tier 1: " + " ".join([str(card) for card in self.table[0]]) +  \
-                        "\n     Tier 2: " + " ".join([str(card) for card in self.table[1]])   + \
-                        "\n     Tier 3: " + " ".join([str(card) for card in self.table[2]]) 
+                        "\n     Tier 1: " + " ".join(["\n       " +str(card) for card in self.table[0]]) +  \
+                        "\n     Tier 2: " + " ".join(["\n       " +str(card) for card in self.table[1]])   + \
+                        "\n     Tier 3: " + " ".join(["\n       " + str(card) for card in self.table[2]]) + \
+                        "\n\nPlayer hand:" + "".join(["\n       " + str(card) for card in self.playerHand.getDeck()]) + "\n       Current Prestige:" + str(self.playerHand.getPrestige()) + \
+                        "\n\nComputer hand:" + "".join(["\n       " + str(card) for card in self.computerHand.getDeck()]) + "\n       Current Prestige:" + str(self.computerHand.getPrestige()) 
 
 
 class hand:
         
         def __init__(self):
-                self.deck = {}
+                self.deck = []
                 self.token = {}
                 self.prestigePoint = 0
 
@@ -112,8 +118,10 @@ class hand:
                 return self.prestigePoint
 
 
-        def updateHand(self, action):
-                pass
-              
+        def AddCard(self, card):
+                self.deck.append(card)
+                self.prestigePoint += card.prestige
+
+ 
 newGame = game()
 print(newGame.gameState)

@@ -1,7 +1,7 @@
 import random
 class deck:
-    _deck = []
 
+    
     def Shuffle(self):
         random.shuffle(self._deck)
 
