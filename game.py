@@ -121,8 +121,8 @@ class hand:
 
         def getNumTokens(self):
                 ans = 0
-                for aToken in self.getTokens():
-                        ans += aToken.num
+                for aToken in self.getTokens().values():
+                        ans += aToken
                 return ans
 
         def getTokens(self):
