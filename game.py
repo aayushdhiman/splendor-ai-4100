@@ -56,6 +56,14 @@ class game:
                         gameState.getComputerHand.getPrestige >= 15:
                         self.gameOver = True
 
+        def getWinLoss(self):
+                ans = 0
+                if self.getGameState().getComputerHand().getPrestige() >= 15:
+                        ans = 1
+                if self.getGameState().getPlayerHand().getPrestige() >= 15:
+                        ans = -1
+                return ans
+
         def ParseAction(self, gameState, action):
                 action =  {
                 'type': 'aaa',
@@ -91,8 +99,9 @@ class game:
                 gameState.Purchase(gameState.GetTurn(), card)
                 return gameState
 
- 
-                
+        def eval(self):
+                ans = 100 * self.getWinLoss() + 2 * self.getGameState().getComputerHand().getPrestige() + len(self.getGameState().getComputerHand().getDeck()) + self.getGameState().getComputerHand().getNumTokens()
+                return ans   
 
 
 class hand:
@@ -110,6 +119,14 @@ class hand:
         def getPrestige(self):
                 return self.prestigePoint
 
+        def getNumTokens(self):
+                ans = 0
+                for aToken in self.getTokens():
+                        ans += aToken.num
+                return ans
+
+        def getTokens(self):
+                return self.token
 
         def AddCard(self, card):
                 self.deck.append(card)
