@@ -39,6 +39,8 @@ while running:
     pygame.draw.ellipse(screen, (38, 166, 51), (50, 380, 160, 100))
     pygame.draw.ellipse(screen, (0, 0, 0), (50, 500, 160, 100), 5)
 
+    # Add text on each of the cards from card metadata
+    
     # Include a counter that has how many prestige points you have
     # Deck 1
     pygame.draw.rect(screen, (128, 111, 64), pygame.Rect(250, 70, 70, 100))
