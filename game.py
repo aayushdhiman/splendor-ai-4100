@@ -1,7 +1,8 @@
+from hand import hand
+from state import state
+
 import Tier1Deck 
  
-import ActionUtil
-from ActionUtil import Result
 
 class game:
 
@@ -27,9 +28,9 @@ class game:
                                 'white': 7, 'blue': 7, 'green': 7, 'red': 7, 'black': 7
                         },
                         [tier1Pool,tier1Pool,tier1Pool],
-                        [card for card in tier1deck],
-                        [card for card in tier1deck],
-                        [card for card in tier1deck],
+                        [card for card in tier1deck.deck],
+                        [card for card in tier1deck.deck],
+                        [card for card in tier1deck.deck],
                         examplePlayerHand,
                         hand()
 
@@ -48,7 +49,7 @@ class game:
                 self.turns = not self.turns
 
         def takeAction(self,action):
-                Result.ParseAction(self.gameState, action)
+                self.gameState = self.gameState.ParseAction(action)
 
         
         def isOver(self, gameState):
@@ -104,90 +105,12 @@ class game:
                 return ans   
 
 
-class hand:
-        
-        def __init__(self):
-                self.deck = []
-                self.reservePile = []
-                self.token = {}
-                self.prestigePoint = 0
-
-        
-        def getDeck(self):
-                return self.deck
-        
-        def getPrestige(self):
-                return self.prestigePoint
-
-        def getNumTokens(self):
-                ans = 0
-                for aToken in self.getTokens().values():
-                        ans += aToken
-                return ans
-
-        def getTokens(self):
-                return self.token
-
-        def AddCard(self, card):
-                self.deck.append(card)
-                self.prestigePoint += card.prestige
-
-        def ReserveCard(self, card):
-                self.reservePile.append(card)
-
- 
-
-class state:
-
-        def __init__(self, pool : dict, table : list, deck1 : list, deck2 : list, deck3 : list, playerHand : hand, computerHand : hand):
-                """
-                
-                """
-                self.pool = pool
-                self.table = table
-                self.deck1 = deck1
-                self.deck2 = deck2
-                self.deck3 = deck3
-                self.playerHand = playerHand
-                self.computerHand = computerHand
-
-
-        def getPool(self):
-                return self.pool
-
-        def generatePool(self):
-                pass
-        
-        def getPlayerHand(self):
-                return self.playerHand
-
-        def getComputerHand(self):
-                return self.computerHand
-
-        def GetCardAtTableLocation(self, location):
-                if(location[0] == 0):
-                        return self.deck1[location[1]]
-                if(location[0] == 1):
-                        return self.deck2[location[1]]
-                if(location[0] == 2):
-                        return self.deck3[location[1]]
-
-
-        
-        def __repr__(self):
-                return "Current Game State: \n\n" + "Current Pool: " + \
-                        "\n     White: " + str(self.pool['white']) + \
-                        "\n     Blue: " + str(self.pool['blue']) + \
-                        "\n     Green: " + str(self.pool['green']) + \
-                        "\n     Red: " + str(self.pool['red']) + \
-                        "\n     Black: " + str(self.pool['black']) + \
-                        "\n\nCurrent Table: " + \
-                        "\n     Tier 1: " + " ".join(["\n       " +str(card) for card in self.table[0]]) +  \
-                        "\n     Tier 2: " + " ".join(["\n       " +str(card) for card in self.table[1]])   + \
-                        "\n     Tier 3: " + " ".join(["\n       " + str(card) for card in self.table[2]]) + \
-                        "\n\nPlayer hand:" + "".join(["\n       " + str(card) for card in self.playerHand.getDeck()]) + "\n       Current Prestige:" + str(self.playerHand.getPrestige()) + \
-                        "\n\nComputer hand:" + "".join(["\n       " + str(card) for card in self.computerHand.getDeck()]) + "\n       Current Prestige:" + str(self.computerHand.getPrestige()) 
-
-
 newGame = game()
-print(newGame.gameState)
+nextState = newGame.gameState.copy();
+for card in newGame.gameState.computerHand.deck:
+        print("In Old State")
+        print(card)
+newGame.gameState.computerHand.AddCard(Tier1Deck.tier1Cards.card1)
+for card in nextState.computerHand.deck:
+        print("In New State")
+        print(card)
