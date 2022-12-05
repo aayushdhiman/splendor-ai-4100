@@ -1,10 +1,10 @@
-
+from card import card
 class hand:
         
         def __init__(self):
                 self.deck = []
                 self.reservePile = []
-                self.token = {}
+                self.token : dict = {'white': 0, 'blue': 0, 'green': 0, 'red': 0, 'black': 0}
                 self.prestigePoint = 0
 
         def copy(self):
@@ -41,5 +41,14 @@ class hand:
 
         def ReserveCard(self, card):
                 self.reservePile.append(card)
+
+        def CanBuy(self, potentialCard : card):
+                cost : dict = potentialCard.cost
+                for mineral, amount in cost.items():
+                        if(self.token[mineral] < amount):
+                                return False
+                return True
+
+
 
  

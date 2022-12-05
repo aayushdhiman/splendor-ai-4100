@@ -81,6 +81,13 @@ class state:
                 gameState.Purchase(gameState.GetTurn(), card)
                 return gameState
 
+        def still_has_token(self,color):
+                if(self.pool[color] > 0):
+                        return True
+                return False
+
+                
+
         
         def __repr__(self):
                 return "Current Game State: \n\n" + "Current Pool: " + \

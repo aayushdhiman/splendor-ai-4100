@@ -85,11 +85,15 @@ class game:
         BOARD_X, BOARD_Y = (3, 4)
         MAX_RESERVED_CARDS = 3
 
-        def get_subsets(li, size=3):
+        def get_subsets(self, li, size=3):
                 return set(combinations(li, size))
 
-        def get_possible_actions(self, gamestate, player):
+        def get_possible_actions(self, gamestate : state):
                 actions = []
+                if(self.turns):
+                        player : hand = gamestate.playerHand
+                else:
+                        player : hand = gamestate.computerHand
 
                 # First type : take_3
                 take_3 = self.POSSIBLE_ACTIONS[0]
@@ -99,7 +103,7 @@ class game:
                 available_tokens = set()
                 # Check if there's still available tokens of each color
                 for color in allowed_tokens:
-                        if self.state.still_has_token(color):
+                        if gamestate.still_has_token(color):
                                 available_tokens.add(color)
                 # Get all 3-tuples of available tokens
                 all_token_tuples = self.get_subsets(available_tokens, 3)
@@ -114,7 +118,7 @@ class game:
                 # Second type : take_2
                 take_2 = self.POSSIBLE_ACTIONS[1]
                 for color in allowed_tokens:
-                        if gamestate.tokens[color] >= self.MIN_TOKEN_FOR_TAKE_2:
+                        if gamestate.pool[color] >= self.MIN_TOKEN_FOR_TAKE_2:
                                 new_action = {
                                         'type': take_2,
                                         'params': color
@@ -123,11 +127,11 @@ class game:
 
                 # Third type : reserve
                 reserve = self.POSSIBLE_ACTIONS[2]
-                if len(player.hand) < self.MAX_RESERVED_CARDS:
+                if len(player.getDeck()) < self.MAX_RESERVED_CARDS:
                         # Pick a reserved cards from the middle of the table
                         for i in range(self.BOARD_X):
-                                for j in range(self.game.BOARD_Y):
-                                        if gamestate.cards[i][j].is_empty():
+                                for j in range(self.BOARD_Y):
+                                        if gamestate.GetCardAtTableLocation([i,j]) != None:
                                                 break
                                         new_action = {
                                         'type': reserve,
@@ -139,18 +143,18 @@ class game:
                 purchase = self.POSSIBLE_ACTIONS[3]
                 for i in range(self.BOARD_X):
                         for j in range(self.BOARD_Y):
-                                if gamestate.cards[i][j].is_empty():
+                                if gamestate.GetCardAtTableLocation([i,j]) != None:
                                         break
-                                card = gamestate.cards[i][j]
-                                if player.can_buy(card):
+                                card = gamestate.GetCardAtTableLocation(i,j)
+                                if player.CanBuy(card):
                                         new_action = {
                                         'type': purchase,
                                         'params': ['from_table', (i, j)]
                                         }
                                         actions.append(new_action)
-                for i in range(len(player.hand)):
-                        card = player.hand[i]
-                        if player.can_buy(card):
+                for i in range(len(player.deck)):
+                        card = player.deck[i]
+                        if player.CanBuy(card):
                                 new_action = {
                                         'type': purchase,
                                         'params': ['from_hand', i]
@@ -219,3 +223,4 @@ class game:
 
 newGame = game()
 print(newGame.gameState)
+print(newGame.get_possible_actions(newGame.gameState,))
