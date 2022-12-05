@@ -13,6 +13,7 @@ class state:
                 self.deck3 = deck3
                 self.playerHand = playerHand
                 self.computerHand = computerHand
+                self.isPlayerTurn = True 
 
         def copy(self):
                 return state(self.pool, self.table, self.deck1, self.deck2, self.deck3,self.playerHand.copy(), self.computerHand.copy())
@@ -39,17 +40,16 @@ class state:
 
         def ParseAction(self, action):
 
-                successorGamestate = self.copy()
-                action =  {
-                'type': 'aaa',
-                'params': 'tokens'
-                }
+              
+                print(action['type'])
+             
                 if action['type'] == 'take_3' or action['type'] == 'take_2':
-                        self.UpdateTokens(successorGamestate, action['params'])
+                        print('UPDATED TOKENS')
+                        successorGamestate = self.UpdateTokens(action['params'])
                 elif action['type'] == 'reserve':
-                        self.ReserveCard(successorGamestate, action['params'])
+                        successorGamestate = self.ReserveCard(action['params'])
                 elif action['type'] == 'purchase':
-                        self.PurchaseCard(successorGamestate, action['params'])
+                        successorGamestate = self.PurchaseCard( action['params'])
 
 
                 return successorGamestate
@@ -62,8 +62,9 @@ class state:
                 else:
                         turnHand = newGameState.computerHand
 
-                for mineralType, amount in tokens:
-                        turnHand.token[mineralType]+= amount
+                for mineralType in tokens:
+                        turnHand.token[mineralType] += 1
+                        self.pool[mineralType] -= 1
                 return newGameState
         
 

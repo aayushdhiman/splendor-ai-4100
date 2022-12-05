@@ -11,7 +11,7 @@ class hand:
                 deckCopy = [card for card in self.deck]
                 reservePileCopy = [card for card in self.reservePile]
                 tokenCopy = {}
-                for key,value in self.token:
+                for key,value in self.token.items():
                         tokenCopy.update({key:value}) 
                 newHand = hand()
                 newHand.deck = deckCopy

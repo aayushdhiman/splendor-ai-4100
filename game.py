@@ -182,10 +182,7 @@ class game:
                 return ans
 
         def ParseAction(self, gameState, action):
-                action =  {
-                'type': 'aaa',
-                'params': 'tokens'
-                }
+          
                 if action['type'] == 'take_3' or action['type'] == 'take_2':
                         gameState = self.UpdateTokens(gameState, action['params'])
                 elif action['type'] == 'reserve':
@@ -222,5 +219,6 @@ class game:
 
 
 newGame = game()
-print(newGame.gameState)
-print(newGame.get_possible_actions(newGame.gameState,))
+
+print(newGame.get_possible_actions(newGame.gameState)[0])
+print(newGame.gameState.ParseAction(newGame.get_possible_actions(newGame.gameState)[0]))
