@@ -72,23 +72,11 @@ class graphics:
             pygame.draw.rect(screen, (128, 111, 64), pygame.Rect(500, 40, 120, 170))
             pygame.draw.rect(screen, (128, 111, 64), pygame.Rect(650, 40, 120, 170))
 
-            deckFont = pygame.font.SysFont(None, 24)
-            cardFont = pygame.font.SysFont(None, 20)
-
-            deck_text = deckFont.render("Tier 1", True, (0, 0, 0))
-            screen.blit(deck_text, (262, 100))
-
-            tier1card1 = self.state.GetCardAtTableLocation([0, 0])
-            cardText = cardFont.render(str(tier1card1), True, (0, 0, 0))
-            screen.blit(cardText, (360, 70))
-            
-            tier1card2 = self.state.GetCardAtTableLocation([0, 1])
-            cardText = cardFont.render(str(tier1card2), True, (0, 0, 0))
-            screen.blit(cardText, (510, 70))
-
-            tier1card3 = self.state.GetCardAtTableLocation([0, 2])
-            cardText = cardFont.render(str(tier1card3), True, (0, 0, 0))
-            screen.blit(cardText, (660, 70))
+            tier1 = " ".join([(str(card) + " ") for card in state.table[0]])
+            tier1 = tier1.split(" ");
+            cardFont = pygame.font.SysFont(None, 24);
+            cardText = cardFont.render(tier1[0], True, (0, 0, 0))
+            screen.blit(cardText, (240, 70))
             # Deck 2
             pygame.draw.rect(screen, (128, 111, 64), pygame.Rect(250, 270, 70, 100))
             pygame.draw.rect(screen, (128, 111, 64), pygame.Rect(350, 240, 120, 170))

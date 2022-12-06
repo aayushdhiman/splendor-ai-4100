@@ -1,5 +1,7 @@
 from hand import hand 
 from itertools import combinations
+import random
+from card import card
 
 class state:
         TOKEN_TYPES = ['green', 'blue', 'red', 'white', 'black', 'yellow']
@@ -9,18 +11,17 @@ class state:
         BOARD_X, BOARD_Y = (3, 4)
         MAX_RESERVED_CARDS = 3
 
-        def __init__(self, pool : dict, table : list, deck1 : list, deck2 : list, deck3 : list, playerHand : hand, computerHand : hand):
+        def __init__(self, pool : dict, table : list, deck : list, playerHand : hand, computerHand : hand):
                 """
                 
                 """
                 self.pool = pool
                 self.table = table
-                self.deck1 = deck1
-                self.deck2 = deck2
-                self.deck3 = deck3
+                self.deck = deck
                 self.playerHand = playerHand
                 self.computerHand = computerHand
-                self.isPlayerTurn = True 
+                self.isPlayerTurn = False
+                
 
         def copy(self):
                 return state(self.pool, self.table, self.deck1, self.deck2, self.deck3,self.playerHand.copy(), self.computerHand.copy())
@@ -51,8 +52,6 @@ class state:
           
                 if action['type'] == 'take_3' or action['type'] == 'take_2':
                         successorGamestate = self.UpdateTokens(action['params'])
-                elif action['type'] == 'reserve':
-                        successorGamestate = self.ReserveCard(action['params'])
                 elif action['type'] == 'purchase':
                         successorGamestate = self.PurchaseCard( action['params'])
 
@@ -75,19 +74,35 @@ class state:
                 return newGameState
         
 
-        def ReserveCard(self, origin, location):
-                gameState = self.copy()
-                if(origin == "from_table"):
-                        card = gameState.GetCardAtTableLocation(location)
-                        gameState.RemoveCardFromTable(card)
-                        gameState.Reserve(self.turns, card)
-                return gameState
 
         def PurchaseCard(self, card):
-                gameState = self.copy()
-                gameState.RemoveCardFromPool(card)
-                gameState.Purchase(gameState.GetTurn(), card)
+                gameState : state = self.copy()
+                gameState.ReplaceCardFromPool(card)
+                gameState.Purchase(card)
                 return gameState
+
+        def GetLocationOfCard(self,card):
+                for pool, index in enumerate(self.pool):
+                        for newCard, cardInex in enumerate(pool):
+                                if(card == newCard):
+                                        return [index, cardInex]
+
+        def ReplaceCardFromPool(self, card):
+                poolIndex,cardIndex = self.GetLocationOfCard(card)
+                newCard = random.choice(self.deck[poolIndex])
+                self.pool[poolIndex][cardIndex] = newCard
+                self.deck[poolIndex].remove(newCard)
+
+        def Purchase(self, chosenCard : card):
+                if(self.isPlayerTurn):
+                        turnHand = self.playerHand
+                else:
+                        turnHand = self.computerHand
+                for mineralType, cost in chosenCard.cost:
+                        turnHand.token[mineralType] -= cost
+                
+                turnHand.AddCard(chosenCard)
+
 
         def still_has_token(self,color):
                 if(self.pool[color] > 0):
@@ -116,7 +131,7 @@ class state:
 
         def get_possible_actions(self):
                 actions = []
-                if(self.turns):
+                if(self.isPlayerTurn):
                         player : hand = self.playerHand
                 else:
                         player : hand = self.computerHand
@@ -131,6 +146,7 @@ class state:
                 for color in allowed_tokens:
                         if self.still_has_token(color):
                                 available_tokens.add(color)
+                                
                 # Get all 3-tuples of available tokens
                 all_token_tuples = self.get_subsets(available_tokens, 3)
                 # Add them to the list of possible actions
@@ -151,21 +167,7 @@ class state:
                                 }
                                 actions.append(new_action)
 
-                # Third type : reserve
-                reserve = self.POSSIBLE_ACTIONS[2]
-                if len(player.getDeck()) < self.MAX_RESERVED_CARDS:
-                        # Pick a reserved cards from the middle of the table
-                        for i in range(self.BOARD_X):
-                                for j in range(self.BOARD_Y):
-                                        if self.GetCardAtTableLocation([i,j]) != None:
-                                                break
-                                        new_action = {
-                                        'type': reserve,
-                                        'params': ['from_table', (i, j)]
-                                        }
-                                        actions.append(new_action)
-
-                # Fourth : buy a card
+                # third : buy a card
                 purchase = self.POSSIBLE_ACTIONS[3]
                 for i in range(self.BOARD_X):
                         for j in range(self.BOARD_Y):
@@ -209,7 +211,7 @@ class state:
         def getSuccessor(self, action):
                 return [action, self.ParseAction(action)]
 
-
+                
 
         
         def __repr__(self):
@@ -220,9 +222,9 @@ class state:
                         "\n     Red: " + str(self.pool['red']) + \
                         "\n     Black: " + str(self.pool['black']) + \
                         "\n\nCurrent Table: " + \
-                        "\n     Tier 1: " + " ".join(["\n       " +str(card) + " " + str(card.cost) for card in self.table[0]]) +  \
-                        "\n     Tier 2: " + " ".join(["\n       " +str(card) + " " + str(card.cost) for card in self.table[1]])   + \
-                        "\n     Tier 3: " + " ".join(["\n       " +str(card) + " " + str(card.cost) for card in self.table[2]]) + \
+                        "\n     Tier 1: " + " ".join(["\n       " +str(card) for card in self.table[0]]) +  \
+                        "\n     Tier 2: " + " ".join(["\n       " +str(card) for card in self.table[1]])   + \
+                        "\n     Tier 3: " + " ".join(["\n       " + str(card) for card in self.table[2]]) + \
                         "\n\nPlayer hand:" + "".join(["\n       " + str(card) for card in self.playerHand.getDeck()]) + "\n       Current Prestige:" + str(self.playerHand.getPrestige()) + \
                         "\n\nComputer hand:" + "".join(["\n       " + str(card) for card in self.computerHand.getDeck()]) + "\n       Current Prestige:" + str(self.computerHand.getPrestige()) 
 
