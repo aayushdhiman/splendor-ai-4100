@@ -24,7 +24,7 @@ class state:
                 
 
         def copy(self):
-                return state(self.pool, self.table, self.deck1, self.deck2, self.deck3,self.playerHand.copy(), self.computerHand.copy())
+                return state(self.pool, self.table, self.deck, self.playerHand.copy(), self.computerHand.copy())
 
         def getPool(self):
                 return self.pool
@@ -39,12 +39,8 @@ class state:
                 return self.computerHand
 
         def GetCardAtTableLocation(self, location):
-                if(location[0] == 0):
-                        return self.deck1[location[1]]
-                if(location[0] == 1):
-                        return self.deck2[location[1]]
-                if(location[0] == 2):
-                        return self.deck3[location[1]]
+                return self.deck[location[0]][location[1]]
+              
 
         def ParseAction(self, action):
 
