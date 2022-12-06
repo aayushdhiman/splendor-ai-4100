@@ -51,9 +51,9 @@ class game:
                                 'white': 7, 'blue': 7, 'green': 7, 'red': 7, 'black': 7
                         },
                         [tier1Pool,tier2Pool,tier3Pool],
-                        [card for card in tier1deck.deck],
+                        [[card for card in tier1deck.deck],
                         [card for card in tier2deck.deck],
-                        [card for card in tier3deck.deck],
+                        [card for card in tier3deck.deck]],
                         examplePlayerHand,
                         hand()
 
