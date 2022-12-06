@@ -52,6 +52,8 @@ class state:
                 return self.computerHand
 
         def GetCardAtTableLocation(self, location):
+                if(len(self.deck[location[0]]) < location[1]):
+                        return None
                 return self.deck[location[0]][location[1]]
               
 
@@ -133,7 +135,7 @@ class state:
                 return False
 
         def eval(self):
-                ans = 100 * self.getWinLoss() + 2 * self.getComputerHand().getPrestige() + len(self.getComputerHand().getDeck()) + self.getComputerHand().getNumTokens() - 2 * self.getPlayerHand().getPrestige()*10 - len(self.getPlayerHand().getDeck()) - self.getPlayerHand().getNumTokens()
+                ans = 100 * self.getWinLoss() + 2 * self.getComputerHand().getPrestige() + len(self.getComputerHand().getDeck()) + self.getComputerHand().getNumTokens() - 50 * self.getPlayerHand().getPrestige() - len(self.getPlayerHand().getDeck()) - self.getPlayerHand().getNumTokens()
                 return ans   
                 
         def getWinLoss(self):

@@ -140,28 +140,37 @@ class graphics:
             screen.blit(deck_text, (262, 100))
 
             tier1card1 = self.state.GetCardAtTableLocation([0, 0])
-            cardText = cardFont.render(str(tier1card1), True, (0, 0, 0))
-            screen.blit(cardText, (360, 70))
 
-            tier1card1_prestige = self.state.table[0][0].prestige
-            cardPrestige = cardFont.render("Prestige: " + str(tier1card1_prestige), True, (0, 0, 0))
-            screen.blit(cardPrestige, (375, 100))
+            if type(tier1card1)is not None:
+
+                cardText = cardFont.render(str(tier1card1), True, (0, 0, 0))
+                screen.blit(cardText, (360, 70))
+
+                tier1card1_prestige = self.state.table[0][0].prestige
+                cardPrestige = cardFont.render("Prestige: " + str(tier1card1_prestige), True, (0, 0, 0))
+                screen.blit(cardPrestige, (375, 100))
             
             tier1card2 = self.state.GetCardAtTableLocation([0, 1])
-            cardText = cardFont.render(str(tier1card2), True, (0, 0, 0))
-            screen.blit(cardText, (510, 70))
 
-            tier1card2_prestige = self.state.table[0][1].prestige
-            cardPrestige = cardFont.render("Prestige: " + str(tier1card2_prestige), True, (0, 0, 0))
-            screen.blit(cardPrestige, (525, 100))
+            if type(tier1card2) is not None:
+
+                cardText = cardFont.render(str(tier1card2), True, (0, 0, 0))
+                screen.blit(cardText, (510, 70))
+
+                tier1card2_prestige = self.state.table[0][1].prestige
+                cardPrestige = cardFont.render("Prestige: " + str(tier1card2_prestige), True, (0, 0, 0))
+                screen.blit(cardPrestige, (525, 100))
 
             tier1card3 = self.state.GetCardAtTableLocation([0, 2])
-            cardText = cardFont.render(str(tier1card3), True, (0, 0, 0))
-            screen.blit(cardText, (660, 70))
+            if type(tier1card3) is not None:
 
-            tier1card3_prestige = self.state.table[0][2].prestige
-            cardPrestige = cardFont.render("Prestige: " + str(tier1card3_prestige), True, (0, 0, 0))
-            screen.blit(cardPrestige, (675, 100))
+                
+                cardText = cardFont.render(str(tier1card3), True, (0, 0, 0))
+                screen.blit(cardText, (660, 70))
+
+                tier1card3_prestige = self.state.table[0][2].prestige
+                cardPrestige = cardFont.render("Prestige: " + str(tier1card3_prestige), True, (0, 0, 0))
+                screen.blit(cardPrestige, (675, 100))
             # Deck 2
             pygame.draw.rect(screen, (128, 111, 64), pygame.Rect(250, 270, 70, 100))
             pygame.draw.rect(screen, (128, 111, 64), pygame.Rect(350, 240, 120, 170))
@@ -172,28 +181,34 @@ class graphics:
             screen.blit(deck_text, (262, 300))
 
             tier2card1 = self.state.GetCardAtTableLocation([1, 0])
-            cardText = cardFont.render(str(tier2card1), True, (0, 0, 0))
-            screen.blit(cardText, (360, 270))
-
-            tier2card1_prestige = self.state.table[1][0].prestige
-            cardPrestige = cardFont.render("Prestige: " + str(tier2card1_prestige), True, (0, 0, 0))
-            screen.blit(cardPrestige, (375, 300))
+            if type(tier2card1)is not None:
+                cardText = cardFont.render(str(tier2card1), True, (0, 0, 0))
+                screen.blit(cardText, (360, 270))
+                tier2card1_prestige = self.state.table[1][0].prestige
+                cardPrestige = cardFont.render("Prestige: " + str(tier2card1_prestige), True, (0, 0, 0))
+                screen.blit(cardPrestige, (375, 300))
             
             tier2card2 = self.state.GetCardAtTableLocation([1, 1])
-            cardText = cardFont.render(str(tier2card2), True, (0, 0, 0))
-            screen.blit(cardText, (510, 270))
 
-            tier2card2_prestige = self.state.table[1][1].prestige
-            cardPrestige = cardFont.render("Prestige: " + str(tier2card2_prestige), True, (0, 0, 0))
-            screen.blit(cardPrestige, (525, 300))
+            if type(tier2card2)is not None:
 
+                cardText = cardFont.render(str(tier2card2), True, (0, 0, 0))
+                screen.blit(cardText, (510, 270))
+
+                tier2card2_prestige = self.state.table[1][1].prestige
+                cardPrestige = cardFont.render("Prestige: " + str(tier2card2_prestige), True, (0, 0, 0))
+                screen.blit(cardPrestige, (525, 300))
+            
             tier2card3 = self.state.GetCardAtTableLocation([1, 2])
-            cardText = cardFont.render(str(tier2card3), True, (0, 0, 0))
-            screen.blit(cardText, (660, 270))
+            if type(tier2card3)is not None:
 
-            tier2card3_prestige = self.state.table[1][2].prestige
-            cardPrestige = cardFont.render("Prestige: " + str(tier2card3_prestige), True, (0, 0, 0))
-            screen.blit(cardPrestige, (675, 300))
+            
+                cardText = cardFont.render(str(tier2card3), True, (0, 0, 0))
+                screen.blit(cardText, (660, 270))
+
+                tier2card3_prestige = self.state.table[1][2].prestige
+                cardPrestige = cardFont.render("Prestige: " + str(tier2card3_prestige), True, (0, 0, 0))
+                screen.blit(cardPrestige, (675, 300))
             # Deck 3
             pygame.draw.rect(screen, (128, 111, 64), pygame.Rect(250, 470, 70, 100))
             pygame.draw.rect(screen, (128, 111, 64), pygame.Rect(350, 440, 120, 170))
@@ -204,28 +219,38 @@ class graphics:
             screen.blit(deck_text, (262, 500))
 
             tier3card1 = self.state.GetCardAtTableLocation([2, 0])
-            cardText = cardFont.render(str(tier3card1), True, (0, 0, 0))
-            screen.blit(cardText, (360, 470))
+            if type(tier3card1)is not None:
 
-            tier3card1_prestige = self.state.table[2][0].prestige
-            cardPrestige = cardFont.render("Prestige: " + str(tier3card1_prestige), True, (0, 0, 0))
-            screen.blit(cardPrestige, (375, 500))
-            
+                
+                cardText = cardFont.render(str(tier3card1), True, (0, 0, 0))
+                screen.blit(cardText, (360, 470))
+
+
+                tier3card1_prestige = self.state.table[2][0].prestige
+                cardPrestige = cardFont.render("Prestige: " + str(tier3card1_prestige), True, (0, 0, 0))
+                screen.blit(cardPrestige, (375, 500))
+
             tier3card2 = self.state.GetCardAtTableLocation([2, 1])
-            cardText = cardFont.render(str(tier3card2), True, (0, 0, 0))
-            screen.blit(cardText, (510, 470))
+            if type(tier3card2)is not None:
 
-            tier3card2_prestige = self.state.table[2][1].prestige
-            cardPrestige = cardFont.render("Prestige: " + str(tier3card2_prestige), True, (0, 0, 0))
-            screen.blit(cardPrestige, (525, 500))
+                
+                cardText = cardFont.render(str(tier3card2), True, (0, 0, 0))
+                screen.blit(cardText, (510, 470))
+
+                tier3card2_prestige = self.state.table[2][1].prestige
+                cardPrestige = cardFont.render("Prestige: " + str(tier3card2_prestige), True, (0, 0, 0))
+                screen.blit(cardPrestige, (525, 500))
 
             tier3card3 = self.state.GetCardAtTableLocation([2, 2])
-            cardText = cardFont.render(str(tier3card3), True, (0, 0, 0))
-            screen.blit(cardText, (660, 470))
+            if type(tier3card3) is not None:
 
-            tier3card3_prestige = self.state.table[2][2].prestige
-            cardPrestige = cardFont.render("Prestige: " + str(tier3card3_prestige), True, (0, 0, 0))
-            screen.blit(cardPrestige, (675, 500))
+                
+                cardText = cardFont.render(str(tier3card3), True, (0, 0, 0))
+                screen.blit(cardText, (660, 470))
+
+                tier3card3_prestige = self.state.table[2][2].prestige
+                cardPrestige = cardFont.render("Prestige: " + str(tier3card3_prestige), True, (0, 0, 0))
+                screen.blit(cardPrestige, (675, 500))
             # Player tokens
             pygame.draw.ellipse(screen, (0, 0, 0), (860, 20, 160, 100))
             pygame.draw.ellipse(screen, (7, 3, 252), (860, 140, 160, 100))
