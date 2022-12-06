@@ -84,15 +84,15 @@ class graphics:
 
             tier1card1_prestige = self.state.table[0][0].prestige
             cardPrestige = cardFont.render("Prestige: " + str(tier1card1_prestige), True, (0, 0, 0))
-            screen.blit(cardPrestige, (375, 315))
+            screen.blit(cardPrestige, (375, 100))
             
             tier1card2 = self.state.GetCardAtTableLocation([0, 1])
             cardText = cardFont.render(str(tier1card2), True, (0, 0, 0))
             screen.blit(cardText, (510, 70))
 
-            tier1card2_prestige = self.state.table[0][2].prestige
+            tier1card2_prestige = self.state.table[0][1].prestige
             cardPrestige = cardFont.render("Prestige: " + str(tier1card2_prestige), True, (0, 0, 0))
-            screen.blit(cardPrestige, (525, 315))
+            screen.blit(cardPrestige, (525, 100))
 
             tier1card3 = self.state.GetCardAtTableLocation([0, 2])
             cardText = cardFont.render(str(tier1card3), True, (0, 0, 0))
@@ -100,7 +100,7 @@ class graphics:
 
             tier1card3_prestige = self.state.table[0][2].prestige
             cardPrestige = cardFont.render("Prestige: " + str(tier1card3_prestige), True, (0, 0, 0))
-            screen.blit(cardPrestige, (675, 315))
+            screen.blit(cardPrestige, (675, 100))
             # Deck 2
             pygame.draw.rect(screen, (128, 111, 64), pygame.Rect(250, 270, 70, 100))
             pygame.draw.rect(screen, (128, 111, 64), pygame.Rect(350, 240, 120, 170))
