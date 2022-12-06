@@ -50,9 +50,9 @@ class game:
                                 'white': 7, 'blue': 7, 'green': 7, 'red': 7, 'black': 7
                         },
                         [tier1Pool,tier2Pool,tier3Pool],
-                        [card for card in tier1deck.deck],
+                        [[card for card in tier1deck.deck],
                         [card for card in tier2deck.deck],
-                        [card for card in tier3deck.deck],
+                        [card for card in tier3deck.deck]],
                         examplePlayerHand,
                         hand()
 
@@ -61,16 +61,8 @@ class game:
                 self.display = graphics(self.gameState)
                 self.display.showScreen()
                   
-
-
         def getGameState(self):
                 return self.gameState
-        
-        def getTurns(self):
-                return self.turns
-        
-        def updateTurns(self):
-                self.turns = not self.turns
 
         def takeAction(self,action):
                 self.gameState = self.gameState.ParseAction(action)
@@ -82,38 +74,7 @@ class game:
 
    
 
-        def ParseAction(self, gameState, action):
-          
-                if action['type'] == 'take_3' or action['type'] == 'take_2':
-                        gameState = self.UpdateTokens(gameState, action['params'])
-                elif action['type'] == 'reserve':
-                        gameState = self.ReserveCard(gameState, action['params'])
-                elif action['type'] == 'purchase':
-                        gameState = self.PurchaseCard(gameState, action['params'])
-                else:
-                        gameState = gameState
-
-                return gameState
-        
-        def UpdateTokens(self, gameState, tokens):
-                for token in tokens:
-                        gameState.AddToken(token)
-                return gameState
-        
-
-        def ReserveCard(self, gameState, origin, location):
-                
-                if(origin == "from_table"):
-                        card = gameState.GetCardAtTableLocation(location)
-                        gameState.RemoveCardFromTable(card)
-                        gameState.Reserve(self.turns, card)
-                return gameState
-
-        def PurchaseCard(self,gameState, card):
-                gameState.RemoveCardFromPool(card)
-                gameState.Purchase(gameState.GetTurn(), card)
-                return gameState
-
+     
         
 
 
