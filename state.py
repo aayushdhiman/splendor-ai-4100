@@ -120,8 +120,8 @@ class state:
                 for mineralType, cost in chosenCard.cost.items():
                         leftOverCost = cost
                         leftOverCost -= turnHand.deckTokens[mineralType] 
-                        turnHand.token[mineralType] -= leftOverCost
-                        self.pool[mineralType] += leftOverCost
+                        turnHand.token[mineralType] -= max(leftOverCost,0)
+                        self.pool[mineralType] += max(leftOverCost,0)
                 
                 turnHand.AddCard(chosenCard)
                 

@@ -80,6 +80,8 @@ class graphics:
                                     self.state = self.state.ParseAction(action)
                             else:
                                 self.state = self.state.ParseAction(action)
+                        print(action)
+
 
                     if event.key == K_q:
                         print(self.state.getPlayerHand().deckTokens)
