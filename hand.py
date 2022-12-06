@@ -5,7 +5,7 @@ class hand:
                 self.deck = []
                 self.reservePile = []
                 self.token : dict = {'white': 0, 'blue': 0, 'green': 0, 'red': 0, 'black': 0}
-                self.prestigePoint = 0
+                self.prestigePoint : int= 0
 
         def copy(self):
                 deckCopy = [card for card in self.deck]

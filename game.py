@@ -173,6 +173,15 @@ class game:
 
                 return(actions)
 
+        def getSuccessors(self, gameState : state):
+                successor = []
+                for action in self.get_possible_actions(gameState):
+                        successor.append([action, gameState.ParseAction(action)])
+
+                return successor
+
+                
+
         def getWinLoss(self):
                 ans = 0
                 if self.getGameState().getComputerHand().getPrestige() >= 15:
@@ -221,4 +230,8 @@ class game:
 newGame = game()
 
 print(newGame.get_possible_actions(newGame.gameState)[0])
-print(newGame.gameState.ParseAction(newGame.get_possible_actions(newGame.gameState)[0]))
+#print(newGame.gameState.ParseAction(newGame.get_possible_actions(newGame.gameState)[0]))
+for action, gameState in newGame.getSuccessors(newGame.gameState):
+        print(action)
+
+

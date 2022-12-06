@@ -41,10 +41,8 @@ class state:
         def ParseAction(self, action):
 
               
-                print(action['type'])
-             
+          
                 if action['type'] == 'take_3' or action['type'] == 'take_2':
-                        print('UPDATED TOKENS')
                         successorGamestate = self.UpdateTokens(action['params'])
                 elif action['type'] == 'reserve':
                         successorGamestate = self.ReserveCard(action['params'])
@@ -61,10 +59,12 @@ class state:
                         turnHand = newGameState.playerHand
                 else:
                         turnHand = newGameState.computerHand
-
-                for mineralType in tokens:
-                        turnHand.token[mineralType] += 1
-                        self.pool[mineralType] -= 1
+                if(type(tokens) == tuple):
+                        for mineralType in tokens:
+                                turnHand.token[mineralType] += 1
+                                self.pool[mineralType] -= 1
+                else:
+                        turnHand.token[tokens] += 2
                 return newGameState
         
 
