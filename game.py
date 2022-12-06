@@ -52,7 +52,7 @@ class game:
                         [card for card in tier2deck.deck],
                         [card for card in tier3deck.deck]],
                         hand(),
-                        hand(), False
+                        hand(), False, False
 
                 )
 

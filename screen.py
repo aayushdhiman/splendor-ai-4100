@@ -20,6 +20,7 @@ class graphics:
         testGame = game()
         self.state = testGame.getStartingState()
         self.expectimax = expectimax()
+        self.wasNothing = False
     
     def showScreen(self):
         pygame.init()
@@ -31,30 +32,54 @@ class graphics:
         screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
         # Run until terminal state
-        running = not self.state.isOver()
+        running = not self.state.isOver()[0]
 
         while running:
 
+            if self.state.isOver()[0]:
+                print("GAME OVER! " + self.state.isOver()[1] + " Wins!")
+                break
             # Check for ESC or Quit
             for event in pygame.event.get():
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         running = False
                     elif event.key == K_SPACE:
-                        print("NEW TURN \n\n" + str(self.state.isPlayerTurn))
+                        
                         if self.state.isPlayerTurn:
-                                print("\n \n \n ACTION")
                                 action = self.expectimax.getAction(self.state)
-                                if(action['type'] == 'purchase'):
-                                    print(self.state.GetCardAtTableLocation(action['params'][1]))
-                                    print(self.state.GetCardAtTableLocation(action['params'][1]).cost)
-                                self.state = self.state.ParseAction(action)
+                                if(action['type'] == 'do_nothing'):
+                                    if(self.wasNothing):
+                                        #print("GAME OVER! STALEMATE!")
+                                        #print(self.state.GetWinner() + " WINS!")
+                                        self.state.RefreshCards()
+                                        #running = False
+                                        self.wasNothing = False
+                                        break
+                                    else:
+                                        self.wasNothing = True
+                                        self.state = self.state.ParseAction(action)
+
+                                else:
+                                    self.state = self.state.ParseAction(action)
 
                         else:
 
                             random_actions = self.state.get_possible_actions()
                             action = random.choice(random_actions)
-                            self.state = self.state.ParseAction(action)
+                            if(action['type'] == 'do_nothing'):
+                                if(self.wasNothing):
+                                    self.state.RefreshCards()
+                                    self.wasNothing = False 
+                                    #print("GAME OVER! STALEMATE!")
+                                    #print(self.state.GetWinner() + " WINS!")
+                                    #running = False
+                                    break
+                                else:
+                                    self.wasNothing = True
+                                    self.state = self.state.ParseAction(action)
+                            else:
+                                self.state = self.state.ParseAction(action)
 
                     if event.key == K_q:
                         print(self.state.getPlayerHand().deckTokens)
@@ -229,7 +254,7 @@ class graphics:
             prestigeComputer = font.render(str(self.state.getComputerHand().getPrestige()), True, (0, 0, 0))
             screen.blit(prestigeComputer, (114, 645))
 
-            prestigePlayer = font.render(str(self.state.getComputerHand().getPrestige()), True, (0, 0, 0))
+            prestigePlayer = font.render(str(self.state.getPlayerHand().getPrestige()), True, (0, 0, 0))
             screen.blit(prestigePlayer, (924, 645))
             pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(85, 620, 80, 80), 5)
             pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(895, 620, 80, 80), 5)

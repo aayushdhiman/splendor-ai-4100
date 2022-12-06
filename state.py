@@ -13,7 +13,7 @@ class state:
 
         
 
-        def __init__(self, pool : dict, table : list, deck : list, playerHand : hand, computerHand : hand, playerTurn : bool):
+        def __init__(self, pool : dict, table : list, deck : list, playerHand : hand, computerHand : hand, playerTurn : bool, wasNothing : bool):
                 """
                 
                 """
@@ -23,6 +23,7 @@ class state:
                 self.playerHand = playerHand
                 self.computerHand = computerHand
                 self.isPlayerTurn = playerTurn
+                self.wasNothing = wasNothing
                 
 
         def copy(self):
@@ -36,7 +37,7 @@ class state:
                         [card for card in self.deck[1]],
                         [card for card in self.deck[2]]]
                 
-                return state(copiedPool, copiedTable, copiedDeck, self.playerHand.copy(), self.computerHand.copy(), not self.isPlayerTurn)
+                return state(copiedPool, copiedTable, copiedDeck, self.playerHand.copy(), self.computerHand.copy(), not self.isPlayerTurn, self.wasNothing)
 
         def getPool(self):
                 return self.pool
@@ -61,10 +62,18 @@ class state:
                 elif action['type'] == 'purchase':
                         successorGamestate = self.PurchaseCard( action['params'])
                 else:
-                        return self.copy()
+                                return self.copy()
                
                 return successorGamestate
         
+        def RefreshCards(self):
+                
+                for i in range(len(self.table)):
+                        for j in range(len(self.table[i])):
+                                locatedCard = self.GetCardAtTableLocation([i,j])
+                                self.ReplaceCardFromPool([i,j])
+                                self.deck[i].append(locatedCard)
+                                 
         def UpdateTokens(self, tokens):
                 
                 newGameState = self.copy()
@@ -136,10 +145,18 @@ class state:
                 return ans
 
         def isOver(self):
-                return self.getPlayerHand().getPrestige() >= 15 or \
-                        self.getComputerHand().getPrestige() >= 15
-       
 
+                if(self.getPlayerHand().getPrestige() >= 15):
+                        return True, 'Player' 
+                if self.getComputerHand().getPrestige() >= 15:
+                        return True, 'Computer'
+                return False, 'NONE'
+       
+        def GetWinner(self):
+                if self.playerHand.getPrestige() > self.computerHand.getPrestige():
+                        return 'Player'
+                else:
+                        return 'Random Agent'
 
         def get_subsets(self, li, size=3):
                 return set(combinations(li, size))
@@ -198,12 +215,6 @@ class state:
                                 card = self.GetCardAtTableLocation([i,j])
                   
                                 if player.CanBuy(card):
-                                        print("\n \nCOSTTTTT")
-
-                                        print(card.cost)
-                                        print(self.isPlayerTurn)
-                           
-
                                         new_action = {
                                         'type': purchase,
                                         'params': ['from_table', [i, j]]
