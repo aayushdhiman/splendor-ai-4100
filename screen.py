@@ -30,7 +30,7 @@ class graphics:
 
         # Run until terminal state
         running = not self.state.isOver()
-        
+
         while running:
 
             # Check for ESC or Quit
@@ -39,13 +39,13 @@ class graphics:
                     if event.key == K_ESCAPE:
                         running = False
                     elif event.key == K_SPACE:
-                        if state.turns:
+                        if self.state.isPlayerTurn:
                                 action = expectimax.getAction()
-                                self.state = state.ParseAction(action, state.turns)
+                                self.state = self.state.ParseAction(action)
                         else:
-                            random_actions = state.get_possible_actions()
+                            random_actions = self.state.get_possible_actions()
                             action = random.choice(random_actions)
-                            self.state = state.ParseAction(action, state.turn)
+                            self.state = self.state.ParseAction(action)
 
                 elif event.type == QUIT:
                     running = False
