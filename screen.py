@@ -1,17 +1,23 @@
 # Import pygame
 import pygame
 from state import state
+from gameTree import expectimax
+import random
+from game import game
+
 
 # Import any controls 
 from pygame.locals import(
     K_ESCAPE,
     QUIT,
     KEYDOWN,
+    K_SPACE,
 )
 
 class graphics:
-    def __init__(self, state : state):
-        self.state = state
+    def __init__(self):
+        testGame = game()
+        self.state = testGame.getStartingState()
     
     def showScreen(self):
         pygame.init()
@@ -23,7 +29,8 @@ class graphics:
         screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
         # Run until terminal state
-        running = not (self.state.isOver()) 
+        running = not self.state.isOver()
+        
         while running:
 
             # Check for ESC or Quit
@@ -31,8 +38,19 @@ class graphics:
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         running = False
+                    elif event.key == K_SPACE:
+                        if state.turns:
+                                action = expectimax.getAction()
+                                self.state = state.ParseAction(action, state.turns)
+                        else:
+                            random_actions = state.get_possible_actions()
+                            action = random.choice(random_actions)
+                            self.state = state.ParseAction(action, state.turn)
+
                 elif event.type == QUIT:
                     running = False
+
+
 
             # Update state
             # self.updateState();
@@ -233,4 +251,6 @@ class graphics:
 
         # def updateState(newState : state):
         #     self.state = newState
-        
+    
+display = graphics()
+display.showScreen()

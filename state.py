@@ -117,8 +117,8 @@ class state:
                 return ans
 
         def isOver(self):
-                return self.getPlayerHand().getPrestige >= 15 or \
-                        self.getComputerHand().getPrestige >= 15
+                return self.getPlayerHand().getPrestige() >= 15 or \
+                        self.getComputerHand().getPrestige() >= 15
        
 
 

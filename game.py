@@ -1,7 +1,6 @@
 from hand import hand
 from state import state
 from itertools import combinations
-from screen import graphics
 
 import Tier1Deck 
 import Tier2Deck 
@@ -57,9 +56,7 @@ class game:
                         hand()
 
                 )
-                self.display = graphics(self.gameState)
-                self.display.showScreen()
-                self.gameState = self.StartingGameState;
+
                   
 
 
@@ -72,13 +69,4 @@ class game:
         def UpdateGameState(self, gameState : state):
                 self.gameState = gameState
         
-
-newGame = game()
-
-#print(newGame.get_possible_actions(newGame.gameState)[0])
-#print(newGame.gameState.ParseAction(newGame.get_possible_actions(newGame.gameState)[0]))
-# for action, gameState in newGame.getSuccessors(newGame.gameState):
-#         print(gameState.eval())
-        
-
 
