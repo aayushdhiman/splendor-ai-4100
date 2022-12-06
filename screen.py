@@ -4,7 +4,7 @@ from state import state
 from gameTree import expectimax
 import random
 from game import game
-
+import csv
 
 # Import any controls 
 from pygame.locals import(
@@ -22,6 +22,7 @@ class graphics:
         self.expectimax = expectimax()
         self.wasNothing = False
         self.auto = auto
+        
     
     def showScreen(self):
         pygame.init()
@@ -33,9 +34,9 @@ class graphics:
         screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
         # Run until terminal state
-        running = not self.state.isOver()[0]
+        self.running = not self.state.isOver()[0]
 
-        while running:
+        while self.running:
 
             if self.state.isOver()[0]:
                 print("GAME OVER! " + self.state.isOver()[1] + " Wins!")
@@ -135,7 +136,6 @@ class graphics:
                 
                 cardText = cardFont.render(str(tier1card3), True, (0, 0, 0))
                 screen.blit(cardText, (660, 70))
-                print(tier1card3)
                 tier1card3_prestige = tier1card3.prestige
                 cardPrestige = cardFont.render("Prestige: " + str(tier1card3_prestige), True, (0, 0, 0))
                 screen.blit(cardPrestige, (675, 100))
@@ -282,7 +282,7 @@ class graphics:
 
         pygame.quit()
       
-        return self.state.GetWinner()
+        return self.state
 
         # def updateState(newState : state):
         #     self.state = newState
@@ -314,20 +314,28 @@ class graphics:
                     if not self.state.RefreshCards():
                         print("GAME OVER! STALEMATE!")
                         self.running = False
-                    self.wasNothing = False 
-                 
-                    
+                    self.wasNothing = False
                 else:
                     self.wasNothing = True
                     self.state = self.state.ParseAction(action)
             else:
                 self.state = self.state.ParseAction(action)
-        print(action)
 
 
-winner = {'Random Agent':0, "Player":0, "None" : 0};
-for i in range(10):
+winner = {"Player":0, "Random Agent":0, "None" : 0};
+record = []
+for i in range(1):
     display = graphics(True)
-    winner[display.showScreen()] += 1
+    result = display.showScreen()
+    winner[result.GetWinner()] += 1
+    record.append([result.GetWinner(), result.playerHand.getPrestige(), result.computerHand.getPrestige()])
+    
+with open('record.csv', 'w', newline='') as csvfile:
+    spamwriter = csv.writer(csvfile, delimiter=' ',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+    for i in range(len(record)):
 
+        spamwriter.writerow(record[i])
+    spamwriter.writerow(winner.items())
+    
 print(winner)

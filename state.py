@@ -72,11 +72,12 @@ class state:
                 
                 for i in range(len(self.table)):
                         if(len(self.deck[i]) < 3):
-                                return False
+                                continue
                         for j in range(len(self.table[i])):
                                 locatedCard = self.GetCardAtTableLocation([i,j])
                                 self.ReplaceCardFromPool([i,j])
                                 self.deck[i].append(locatedCard)
+                return True
                                  
         def UpdateTokens(self, tokens):
                 
@@ -219,13 +220,13 @@ class state:
                                 if self.GetCardAtTableLocation([i,j]) == None:
                                         break
                                 card = self.GetCardAtTableLocation([i,j])
-                  
-                                if player.CanBuy(card):
-                                        new_action = {
-                                        'type': purchase,
-                                        'params': ['from_table', [i, j]]
-                                        }
-                                        actions.append(new_action)
+                                if(card is not None):
+                                        if player.CanBuy(card):
+                                                new_action = {
+                                                'type': purchase,
+                                                'params': ['from_table', [i, j]]
+                                                }
+                                                actions.append(new_action)
 
                                 
                 # Else: do nothing
