@@ -98,7 +98,6 @@ class state:
                                         return [index, cardIndex]
 
         def ReplaceCardFromPool(self, location : list):                
-                print(location)
                 newCard = random.choice(self.deck[location[0]])
                 self.table[location[0]][location[1]] = newCard
                 self.deck[location[0]].remove(newCard)
@@ -108,9 +107,12 @@ class state:
                         turnHand = self.playerHand
                 else:
                         turnHand = self.computerHand
+                 
                 for mineralType, cost in chosenCard.cost.items():
-                        turnHand.token[mineralType] -= cost
-                        self.pool[mineralType] += cost
+                        leftOverCost = cost
+                        leftOverCost -= turnHand.deckTokens[mineralType] 
+                        turnHand.deckTokens[mineralType] -= leftOverCost
+                        self.pool[mineralType] += leftOverCost
                 
                 turnHand.AddCard(chosenCard)
                 

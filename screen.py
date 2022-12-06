@@ -50,6 +50,7 @@ class graphics:
                             random_actions = self.state.get_possible_actions()
                             action = random.choice(random_actions)
                             self.state = self.state.ParseAction(action)
+                            print(action)
                     if event.key == K_q:
                         print(len(self.state.getPlayerHand().deck))
 
