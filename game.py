@@ -45,7 +45,7 @@ class game:
                 examplePlayerHand = hand()
                 examplePlayerHand.AddCard(tier1deck.deck[5])
 
-                self.gameState = state(
+                self.StartingGameState = state(
                         {
                                 'white': 7, 'blue': 7, 'green': 7, 'red': 7, 'black': 7
                         },
@@ -59,11 +59,18 @@ class game:
                 )
                 self.display = graphics(self.gameState)
                 self.display.showScreen()
+                self.gameState = self.StartingGameState;
                   
 
 
+        def getStartingState(self):
+                return self.StartingGameState
+
         def getGameState(self):
                 return self.gameState
+
+        def UpdateGameState(self, gameState : state):
+                self.gameState = gameState
         
 
 newGame = game()
