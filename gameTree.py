@@ -4,21 +4,9 @@ import sys
 
 class expectimax():
 
-        def __init__(self, game, state) -> None:
-                #self.depth = depth
-                self.game = game
-                self.state = state
 
-        # def expectimax(self):
 
-        #         possible_actions = self.game.get_possible_actions(self.state)
-        #         action_util_pairs = {}
-        #         for action in possible_actions:
-        #                 action_util_pairs[action] = self.state.eval(self.state.ParseAction(action))
-        #         return max(action_util_pairs)
-        
-
-        def getAction(self):
+        def getAction(self, state):
             """
             Returns the expectimax action using self.depth and self.evaluationFunction
 
@@ -27,7 +15,7 @@ class expectimax():
             """
             "*** YOUR CODE HERE ***"
 
-            value, move = self.max_value(self.state, 0)
+            value, move = self.max_value(state, 0)
             return move
 
         def value(self, state, depth):
@@ -39,9 +27,9 @@ class expectimax():
 
             # determine min turn or max turn
             if depth % 2 == 0:
-                value, move = self.max_value(game, depth+1)
+                value, move = self.max_value(state, depth+1)
             else:
-                value, move = self.min_value(game, depth+1)
+                value, move = self.min_value(state, depth+1)
 
             return value
 

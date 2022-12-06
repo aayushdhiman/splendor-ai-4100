@@ -12,12 +12,14 @@ from pygame.locals import(
     QUIT,
     KEYDOWN,
     K_SPACE,
+    K_q,
 )
 
 class graphics:
     def __init__(self):
         testGame = game()
         self.state = testGame.getStartingState()
+        self.expectimax = expectimax()
     
     def showScreen(self):
         pygame.init()
@@ -40,12 +42,16 @@ class graphics:
                         running = False
                     elif event.key == K_SPACE:
                         if self.state.isPlayerTurn:
-                                action = expectimax.getAction()
+                                action = self.expectimax.getAction(self.state.copy())
+                                print(action)
                                 self.state = self.state.ParseAction(action)
                         else:
+                            print("COMPUTER MOVE")
                             random_actions = self.state.get_possible_actions()
                             action = random.choice(random_actions)
                             self.state = self.state.ParseAction(action)
+                    if event.key == K_q:
+                        print(len(self.state.getPlayerHand().deck))
 
                 elif event.type == QUIT:
                     running = False

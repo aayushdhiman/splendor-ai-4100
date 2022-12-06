@@ -41,8 +41,7 @@ class game:
                         tier3deck.RemoveFromDeck(card)
                         tier3Pool.append(card)
 
-                examplePlayerHand = hand()
-                examplePlayerHand.AddCard(tier1deck.deck[5])
+           
 
                 self.StartingGameState = state(
                         {
@@ -52,8 +51,8 @@ class game:
                         [[card for card in tier1deck.deck],
                         [card for card in tier2deck.deck],
                         [card for card in tier3deck.deck]],
-                        examplePlayerHand,
-                        hand()
+                        hand(),
+                        hand(), False
 
                 )
 

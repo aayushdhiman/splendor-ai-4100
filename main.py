@@ -9,6 +9,7 @@ class main():
         def __init__(self, game, state) -> None:
                 self.game = game
                 self.state = state
+                self.expectimax = expectimax()
 
 
 
@@ -17,7 +18,7 @@ class main():
                 while not state.isOver():
 
                         if state.turns:
-                                action = expectimax.getAction()
+                                action = self.expectimax.getAction()
                                 state = state.ParseAction(action, state.turns)
                         else:
                                 random_actions = state.get_possible_actions()
