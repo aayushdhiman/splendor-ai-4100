@@ -182,13 +182,7 @@ class game:
 
                 
 
-        def getWinLoss(self):
-                ans = 0
-                if self.getGameState().getComputerHand().getPrestige() >= 15:
-                        ans = 1
-                if self.getGameState().getPlayerHand().getPrestige() >= 15:
-                        ans = -1
-                return ans
+   
 
         def ParseAction(self, gameState, action):
           
@@ -222,9 +216,7 @@ class game:
                 gameState.Purchase(gameState.GetTurn(), card)
                 return gameState
 
-        def eval(self):
-                ans = 100 * self.getWinLoss() + 2 * self.getGameState().getComputerHand().getPrestige() + len(self.getGameState().getComputerHand().getDeck()) + self.getGameState().getComputerHand().getNumTokens()
-                return ans   
+        
 
 
 newGame = game()
@@ -232,6 +224,7 @@ newGame = game()
 print(newGame.get_possible_actions(newGame.gameState)[0])
 #print(newGame.gameState.ParseAction(newGame.get_possible_actions(newGame.gameState)[0]))
 for action, gameState in newGame.getSuccessors(newGame.gameState):
-        print(action)
+        print(gameState.eval())
+        
 
 

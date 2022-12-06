@@ -86,8 +86,17 @@ class state:
                 if(self.pool[color] > 0):
                         return True
                 return False
-
+        def eval(self):
+                ans = 100 * self.getWinLoss() + 2 * self.getComputerHand().getPrestige() + len(self.getComputerHand().getDeck()) + self.getComputerHand().getNumTokens()
+                return ans   
                 
+        def getWinLoss(self):
+                ans = 0
+                if self.getComputerHand().getPrestige() >= 15:
+                        ans = 1
+                if self.getPlayerHand().getPrestige() >= 15:
+                        ans = -1
+                return ans
 
         
         def __repr__(self):
