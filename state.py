@@ -151,7 +151,6 @@ class state:
                         player : hand = self.playerHand
                 else:
                         player : hand = self.computerHand
-                        print("COMPUTER " + str(player.getNumTokens()))
 
 
                 
@@ -197,7 +196,14 @@ class state:
                                 if self.GetCardAtTableLocation([i,j]) == None:
                                         break
                                 card = self.GetCardAtTableLocation([i,j])
+                  
                                 if player.CanBuy(card):
+                                        print("\n \nCOSTTTTT")
+
+                                        print(card.cost)
+                                        print(self.isPlayerTurn)
+                           
+
                                         new_action = {
                                         'type': purchase,
                                         'params': ['from_table', [i, j]]

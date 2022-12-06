@@ -41,11 +41,15 @@ class graphics:
                     if event.key == K_ESCAPE:
                         running = False
                     elif event.key == K_SPACE:
+                        print("NEW TURN \n\n" + str(self.state.isPlayerTurn))
                         if self.state.isPlayerTurn:
-                                action = self.expectimax.getAction(self.state.copy())
-
+                                print("\n \n \n ACTION")
+                                action = self.expectimax.getAction(self.state)
+                                if(action['type'] == 'purchase'):
+                                    print(self.state.GetCardAtTableLocation(action['params'][1]))
+                                    print(self.state.GetCardAtTableLocation(action['params'][1]).cost)
                                 self.state = self.state.ParseAction(action)
-                   
+
                         else:
 
                             random_actions = self.state.get_possible_actions()
@@ -54,8 +58,7 @@ class graphics:
 
                     if event.key == K_q:
                         print(self.state.getPlayerHand().deckTokens)
-                        for card in self.state.playerHand.deck:
-                            print(card)
+                     
 
                 elif event.type == QUIT:
                     running = False
