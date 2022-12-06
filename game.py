@@ -1,6 +1,7 @@
 from hand import hand
 from state import state
 from itertools import combinations
+from screen import graphics
 
 import Tier1Deck 
 import Tier2Deck 
@@ -57,6 +58,8 @@ class game:
 
                 )
                 self.gameOver = False
+                self.display = graphics(self.gameState)
+                self.display.showScreen()
                   
 
 
