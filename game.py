@@ -119,10 +119,10 @@ class game:
 
 newGame = game()
 
-print(newGame.get_possible_actions(newGame.gameState)[0])
+#print(newGame.get_possible_actions(newGame.gameState)[0])
 #print(newGame.gameState.ParseAction(newGame.get_possible_actions(newGame.gameState)[0]))
-for action, gameState in newGame.getSuccessors(newGame.gameState):
-        print(gameState.eval())
+# for action, gameState in newGame.getSuccessors(newGame.gameState):
+#         print(gameState.eval())
         
 
 
