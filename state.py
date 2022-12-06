@@ -98,9 +98,9 @@ class state:
                         "\n     Red: " + str(self.pool['red']) + \
                         "\n     Black: " + str(self.pool['black']) + \
                         "\n\nCurrent Table: " + \
-                        "\n     Tier 1: " + " ".join(["\n       " +str(card) for card in self.table[0]]) +  \
-                        "\n     Tier 2: " + " ".join(["\n       " +str(card) for card in self.table[1]])   + \
-                        "\n     Tier 3: " + " ".join(["\n       " + str(card) for card in self.table[2]]) + \
+                        "\n     Tier 1: " + " ".join(["\n       " +str(card) + " " + str(card.cost) for card in self.table[0]]) +  \
+                        "\n     Tier 2: " + " ".join(["\n       " +str(card) + " " + str(card.cost) for card in self.table[1]])   + \
+                        "\n     Tier 3: " + " ".join(["\n       " +str(card) + " " + str(card.cost) for card in self.table[2]]) + \
                         "\n\nPlayer hand:" + "".join(["\n       " + str(card) for card in self.playerHand.getDeck()]) + "\n       Current Prestige:" + str(self.playerHand.getPrestige()) + \
                         "\n\nComputer hand:" + "".join(["\n       " + str(card) for card in self.computerHand.getDeck()]) + "\n       Current Prestige:" + str(self.computerHand.getPrestige()) 
 
