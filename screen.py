@@ -58,8 +58,8 @@ class graphics:
             pygame.draw.rect(screen, (128, 111, 64), pygame.Rect(650, 40, 120, 170))
 
             tier1 = " ".join([(str(card) + " ") for card in state.table[0]])
-            tier1 = tier1.split(" ");
-            cardFont = pygame.font.SysFont(None, 24);
+            tier1 = tier1.split(" ")
+            cardFont = pygame.font.SysFont(None, 24)
             cardText = cardFont.render(tier1[0], True, (0, 0, 0))
             screen.blit(cardText, (240, 70))
             # Deck 2
