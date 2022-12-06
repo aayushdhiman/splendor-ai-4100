@@ -52,7 +52,7 @@ class state:
                 return self.computerHand
 
         def GetCardAtTableLocation(self, location):
-                if(len(self.deck[location[0]]) < location[1]):
+                if(len(self.deck[location[0]]) <= location[1]):
                         return None
                 return self.deck[location[0]][location[1]]
               
@@ -71,6 +71,8 @@ class state:
         def RefreshCards(self):
                 
                 for i in range(len(self.table)):
+                        if(len(self.deck[i]) < 3):
+                                return False
                         for j in range(len(self.table[i])):
                                 locatedCard = self.GetCardAtTableLocation([i,j])
                                 self.ReplaceCardFromPool([i,j])
@@ -135,15 +137,15 @@ class state:
                 return False
 
         def eval(self):
-                ans = 100 * self.getWinLoss() + 2 * self.getComputerHand().getPrestige() + len(self.getComputerHand().getDeck()) + self.getComputerHand().getNumTokens() - 50 * self.getPlayerHand().getPrestige() - len(self.getPlayerHand().getDeck()) - self.getPlayerHand().getNumTokens()
+                ans = 100 * self.getWinLoss() - 2 * self.getComputerHand().getPrestige() - len(self.getComputerHand().getDeck()) - self.getComputerHand().getNumTokens() + 50 * self.getPlayerHand().getPrestige() + len(self.getPlayerHand().getDeck()) + self.getPlayerHand().getNumTokens()
                 return ans   
                 
         def getWinLoss(self):
                 ans = 0
                 if self.getComputerHand().getPrestige() >= 15:
-                        ans = 1
-                if self.getPlayerHand().getPrestige() >= 15:
                         ans = -1
+                if self.getPlayerHand().getPrestige() >= 15:
+                        ans = 1
                 return ans
 
         def isOver(self):
@@ -155,10 +157,12 @@ class state:
                 return False, 'NONE'
        
         def GetWinner(self):
-                if self.playerHand.getPrestige() > self.computerHand.getPrestige():
+                if self.playerHand.getPrestige() > self.computerHand.getPrestige() and self.playerHand.getPrestige() >= 15:
                         return 'Player'
-                else:
+                elif self.playerHand.getPrestige() < self.computerHand.getPrestige() and self.computerHand.getPrestige() >= 15:
                         return 'Random Agent'
+                else:
+                        return 'None'
 
         def get_subsets(self, li, size=3):
                 return set(combinations(li, size))

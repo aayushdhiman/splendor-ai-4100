@@ -16,11 +16,12 @@ from pygame.locals import(
 )
 
 class graphics:
-    def __init__(self):
+    def __init__(self, auto : bool):
         testGame = game()
         self.state = testGame.getStartingState()
         self.expectimax = expectimax()
         self.wasNothing = False
+        self.auto = auto
     
     def showScreen(self):
         pygame.init()
@@ -40,48 +41,14 @@ class graphics:
                 print("GAME OVER! " + self.state.isOver()[1] + " Wins!")
                 break
             # Check for ESC or Quit
+            
             for event in pygame.event.get():
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         running = False
                     elif event.key == K_SPACE:
+                        self.GenerateTurn()
                         
-                        if self.state.isPlayerTurn:
-                                action = self.expectimax.getAction(self.state)
-                                if(action['type'] == 'do_nothing'):
-                                    if(self.wasNothing):
-                                        #print("GAME OVER! STALEMATE!")
-                                        #print(self.state.GetWinner() + " WINS!")
-                                        self.state.RefreshCards()
-                                        #running = False
-                                        self.wasNothing = False
-                                        break
-                                    else:
-                                        self.wasNothing = True
-                                        self.state = self.state.ParseAction(action)
-
-                                else:
-                                    self.state = self.state.ParseAction(action)
-
-                        else:
-
-                            random_actions = self.state.get_possible_actions()
-                            action = random.choice(random_actions)
-                            if(action['type'] == 'do_nothing'):
-                                if(self.wasNothing):
-                                    self.state.RefreshCards()
-                                    self.wasNothing = False 
-                                    #print("GAME OVER! STALEMATE!")
-                                    #print(self.state.GetWinner() + " WINS!")
-                                    #running = False
-                                    break
-                                else:
-                                    self.wasNothing = True
-                                    self.state = self.state.ParseAction(action)
-                            else:
-                                self.state = self.state.ParseAction(action)
-                        print(action)
-
 
                     if event.key == K_q:
                         print(self.state.getPlayerHand().deckTokens)
@@ -90,7 +57,8 @@ class graphics:
                 elif event.type == QUIT:
                     running = False
 
-
+            if(self.auto):
+                self.GenerateTurn()
 
             # Update state
             # self.updateState();
@@ -141,7 +109,7 @@ class graphics:
 
             tier1card1 = self.state.GetCardAtTableLocation([0, 0])
 
-            if type(tier1card1)is not None:
+            if tier1card1 is not None:
 
                 cardText = cardFont.render(str(tier1card1), True, (0, 0, 0))
                 screen.blit(cardText, (360, 70))
@@ -152,7 +120,7 @@ class graphics:
             
             tier1card2 = self.state.GetCardAtTableLocation([0, 1])
 
-            if type(tier1card2) is not None:
+            if tier1card2 is not None:
 
                 cardText = cardFont.render(str(tier1card2), True, (0, 0, 0))
                 screen.blit(cardText, (510, 70))
@@ -162,13 +130,13 @@ class graphics:
                 screen.blit(cardPrestige, (525, 100))
 
             tier1card3 = self.state.GetCardAtTableLocation([0, 2])
-            if type(tier1card3) is not None:
+            if tier1card3 is not None:
 
                 
                 cardText = cardFont.render(str(tier1card3), True, (0, 0, 0))
                 screen.blit(cardText, (660, 70))
-
-                tier1card3_prestige = self.state.table[0][2].prestige
+                print(tier1card3)
+                tier1card3_prestige = tier1card3.prestige
                 cardPrestige = cardFont.render("Prestige: " + str(tier1card3_prestige), True, (0, 0, 0))
                 screen.blit(cardPrestige, (675, 100))
             # Deck 2
@@ -190,7 +158,7 @@ class graphics:
             
             tier2card2 = self.state.GetCardAtTableLocation([1, 1])
 
-            if type(tier2card2)is not None:
+            if tier2card2 is not None:
 
                 cardText = cardFont.render(str(tier2card2), True, (0, 0, 0))
                 screen.blit(cardText, (510, 270))
@@ -200,7 +168,7 @@ class graphics:
                 screen.blit(cardPrestige, (525, 300))
             
             tier2card3 = self.state.GetCardAtTableLocation([1, 2])
-            if type(tier2card3)is not None:
+            if tier2card3 is not None:
 
             
                 cardText = cardFont.render(str(tier2card3), True, (0, 0, 0))
@@ -219,7 +187,7 @@ class graphics:
             screen.blit(deck_text, (262, 500))
 
             tier3card1 = self.state.GetCardAtTableLocation([2, 0])
-            if type(tier3card1)is not None:
+            if tier3card1 is not None:
 
                 
                 cardText = cardFont.render(str(tier3card1), True, (0, 0, 0))
@@ -231,7 +199,7 @@ class graphics:
                 screen.blit(cardPrestige, (375, 500))
 
             tier3card2 = self.state.GetCardAtTableLocation([2, 1])
-            if type(tier3card2)is not None:
+            if tier3card2 is not None:
 
                 
                 cardText = cardFont.render(str(tier3card2), True, (0, 0, 0))
@@ -242,7 +210,7 @@ class graphics:
                 screen.blit(cardPrestige, (525, 500))
 
             tier3card3 = self.state.GetCardAtTableLocation([2, 2])
-            if type(tier3card3) is not None:
+            if tier3card3 is not None:
 
                 
                 cardText = cardFont.render(str(tier3card3), True, (0, 0, 0))
@@ -313,9 +281,53 @@ class graphics:
             pygame.display.flip()
 
         pygame.quit()
+      
+        return self.state.GetWinner()
 
         # def updateState(newState : state):
         #     self.state = newState
-    
-display = graphics()
-display.showScreen()
+    def GenerateTurn(self):
+        if self.state.isPlayerTurn:
+            action = self.expectimax.getAction(self.state)
+            if(action['type'] == 'do_nothing'):
+                if(self.wasNothing):
+                    #print("GAME OVER! STALEMATE!")
+                    #print(self.state.GetWinner() + " WINS!")
+                    if not self.state.RefreshCards():
+                        print("GAME OVER! STALEMATE!")
+                        self.running = False
+                    #running = False
+                    self.wasNothing = False
+                    
+                else:
+                    self.wasNothing = True
+                    self.state = self.state.ParseAction(action)
+
+            else:
+                self.state = self.state.ParseAction(action)
+        else:
+
+            random_actions = self.state.get_possible_actions()
+            action = random.choice(random_actions)
+            if(action['type'] == 'do_nothing'):
+                if(self.wasNothing):
+                    if not self.state.RefreshCards():
+                        print("GAME OVER! STALEMATE!")
+                        self.running = False
+                    self.wasNothing = False 
+                 
+                    
+                else:
+                    self.wasNothing = True
+                    self.state = self.state.ParseAction(action)
+            else:
+                self.state = self.state.ParseAction(action)
+        print(action)
+
+
+winner = {'Random Agent':0, "Player":0, "None" : 0};
+for i in range(10):
+    display = graphics(True)
+    winner[display.showScreen()] += 1
+
+print(winner)
