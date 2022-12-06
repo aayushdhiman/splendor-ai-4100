@@ -21,6 +21,7 @@ class state:
                 self.playerHand = playerHand
                 self.computerHand = computerHand
                 self.isPlayerTurn = True 
+                
 
         def copy(self):
                 return state(self.pool, self.table, self.deck1, self.deck2, self.deck3,self.playerHand.copy(), self.computerHand.copy())
@@ -45,24 +46,24 @@ class state:
                 if(location[0] == 2):
                         return self.deck3[location[1]]
 
-        def ParseAction(self, action):
+        def ParseAction(self, action, isPlayerTurn):
 
               
           
                 if action['type'] == 'take_3' or action['type'] == 'take_2':
-                        successorGamestate = self.UpdateTokens(action['params'])
+                        successorGamestate = self.UpdateTokens(action['params'], isPlayerTurn)
                 elif action['type'] == 'reserve':
-                        successorGamestate = self.ReserveCard(action['params'])
+                        successorGamestate = self.ReserveCard(action['params'], isPlayerTurn)
                 elif action['type'] == 'purchase':
-                        successorGamestate = self.PurchaseCard( action['params'])
+                        successorGamestate = self.PurchaseCard( action['params'], isPlayerTurn)
 
 
                 return successorGamestate
         
-        def UpdateTokens(self, tokens):
+        def UpdateTokens(self, tokens, isPlayerTurn):
                 
                 newGameState = self.copy()
-                if(self.isPlayerTurn):
+                if(isPlayerTurn):
                         turnHand = newGameState.playerHand
                 else:
                         turnHand = newGameState.computerHand
@@ -75,18 +76,18 @@ class state:
                 return newGameState
         
 
-        def ReserveCard(self, origin, location):
+        def ReserveCard(self, origin, location, isPlayerTurn):
                 gameState = self.copy()
                 if(origin == "from_table"):
                         card = gameState.GetCardAtTableLocation(location)
                         gameState.RemoveCardFromTable(card)
-                        gameState.Reserve(self.turns, card)
+                        gameState.Reserve(isPlayerTurnW, card)
                 return gameState
 
-        def PurchaseCard(self, card):
+        def PurchaseCard(self, card, isPlayerTurn):
                 gameState = self.copy()
                 gameState.RemoveCardFromPool(card)
-                gameState.Purchase(gameState.GetTurn(), card)
+                gameState.Purchase(isPlayerTurn, card)
                 return gameState
 
         def still_has_token(self,color):
@@ -114,9 +115,9 @@ class state:
         def get_subsets(self, li, size=3):
                 return set(combinations(li, size))
 
-        def get_possible_actions(self):
+        def get_possible_actions(self, turns : bool):
                 actions = []
-                if(self.turns):
+                if(turns):
                         player : hand = self.playerHand
                 else:
                         player : hand = self.computerHand
@@ -199,15 +200,15 @@ class state:
 
                 return(actions)
 
-        def getSuccessors(self):
+        def getSuccessors(self, isPlayerTurn):
                 successor = []
                 for action in self.get_possible_actions():
-                        successor.append([action, self.ParseAction(action)])
+                        successor.append([action, self.ParseAction(action, isPlayerTurn)])
 
                 return successor
 
-        def getSuccessor(self, action):
-                return [action, self.ParseAction(action)]
+        def getSuccessor(self, action, isPlayerTurn):
+                return [action, self.ParseAction(action, isPlayerTurn)]
 
                 
 
