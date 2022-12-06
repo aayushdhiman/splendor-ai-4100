@@ -87,7 +87,7 @@ class state:
                         return True
                 return False
         def eval(self):
-                ans = 100 * self.getWinLoss() + 2 * self.getComputerHand().getPrestige() + len(self.getComputerHand().getDeck()) + self.getComputerHand().getNumTokens()
+                ans = 100 * self.getWinLoss() + 2 * self.getComputerHand().getPrestige() + len(self.getComputerHand().getDeck()) + self.getComputerHand().getNumTokens() - 2 * self.getPlayerHand().getPrestige() - len(self.getPlayerHand().getDeck()) - self.getPlayerHand().getNumTokens()
                 return ans   
                 
         def getWinLoss(self):
