@@ -24,7 +24,7 @@ class state:
                 
 
         def copy(self):
-                return state(self.pool, self.table, self.deck1, self.deck2, self.deck3,self.playerHand.copy(), self.computerHand.copy())
+                return state(self.pool, self.table, self.deck, self.playerHand.copy(), self.computerHand.copy())
 
         def getPool(self):
                 return self.pool
