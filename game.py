@@ -15,7 +15,6 @@ class game:
                 """
                 
                 """
-                self.turns = True
 
                 tier1deck = Tier1Deck.Tier1Deck()
                 tier1deck.Shuffle()
@@ -58,7 +57,6 @@ class game:
                         hand()
 
                 )
-                self.gameOver = False
                 self.display = graphics(self.gameState)
                 self.display.showScreen()
                   
@@ -67,60 +65,6 @@ class game:
         def getGameState(self):
                 return self.gameState
         
-        def getTurns(self):
-                return self.turns
-        
-        def updateTurns(self):
-                self.turns = not self.turns
-
-        def takeAction(self,action):
-                self.gameState = self.gameState.ParseAction(action)
-
-        
-        
-
-                
-
-   
-
-        def ParseAction(self, gameState, action):
-          
-                if action['type'] == 'take_3' or action['type'] == 'take_2':
-                        gameState = self.UpdateTokens(gameState, action['params'])
-                elif action['type'] == 'reserve':
-                        gameState = self.ReserveCard(gameState, action['params'])
-                elif action['type'] == 'purchase':
-                        gameState = self.PurchaseCard(gameState, action['params'])
-                else:
-                        gameState = gameState
-
-                return gameState
-        
-        def UpdateTokens(self, gameState, tokens):
-                for token in tokens:
-                        gameState.AddToken(token)
-                return gameState
-        
-
-        def ReserveCard(self, gameState, origin, location):
-                
-                if(origin == "from_table"):
-                        card = gameState.GetCardAtTableLocation(location)
-                        gameState.RemoveCardFromTable(card)
-                        gameState.Reserve(self.turns, card)
-                return gameState
-
-        def PurchaseCard(self,gameState, card):
-                gameState.RemoveCardFromPool(card)
-                gameState.Purchase(gameState.GetTurn(), card)
-                return gameState
-        
-
-
-
-
-        
-
 
 newGame = game()
 
