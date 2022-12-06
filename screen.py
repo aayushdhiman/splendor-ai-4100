@@ -23,7 +23,7 @@ class graphics:
         screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
         # Run until terminal state
-        running = True
+        running = not (self.state.isOver()) 
         while running:
 
             # Check for ESC or Quit
@@ -33,6 +33,9 @@ class graphics:
                         running = False
                 elif event.type == QUIT:
                     running = False
+
+            # Update state
+            # self.updateState();
 
             # White background
             screen.fill((255, 255, 255))
@@ -227,3 +230,7 @@ class graphics:
             pygame.display.flip()
 
         pygame.quit()
+
+        # def updateState(newState : state):
+        #     self.state = newState
+        
