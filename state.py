@@ -68,7 +68,7 @@ class state:
         def UpdateTokens(self, tokens):
                 
                 newGameState = self.copy()
-                if(newGameState.isPlayerTurn):
+                if(self.isPlayerTurn):
                         turnHand = newGameState.playerHand
                 else:
                         turnHand = newGameState.computerHand
@@ -103,7 +103,7 @@ class state:
                 self.deck[location[0]].remove(newCard)
 
         def Purchase(self, chosenCard : card):
-                if(self.isPlayerTurn):
+                if(not self.isPlayerTurn):
                         turnHand = self.playerHand
                 else:
                         turnHand = self.computerHand

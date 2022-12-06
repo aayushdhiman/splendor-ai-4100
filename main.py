@@ -24,7 +24,7 @@ class main():
                                 random_actions = state.get_possible_actions()
                                 action = random.choice(random_actions)
                                 state = state.ParseAction(action, state.turn)
-
+                        
                 
                         
 

@@ -8,13 +8,11 @@ class hand:
                 self.prestigePoint : int= 0
 
         def copy(self):
-                deckCopy = [card for card in self.deck]
-                tokenCopy = {}
-                for key,value in self.token.items():
-                        tokenCopy.update({key:value}) 
                 newHand = hand()
-                newHand.deck = deckCopy
-                newHand.token = tokenCopy
+                
+                for key,value in self.token.items():
+                        newHand.token.update({key:value}) 
+                newHand.deck = [card for card in self.deck]                
                 newHand.prestigePoint = self.prestigePoint
                 return newHand       
 

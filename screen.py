@@ -44,7 +44,11 @@ class graphics:
                         if self.state.isPlayerTurn:
                                 action = self.expectimax.getAction(self.state.copy())
                                 print(action)
+                                
                                 self.state = self.state.ParseAction(action)
+                                print(self.state.computerHand.getNumTokens())
+                                print(self.state.playerHand.getNumTokens())
+
                         else:
                             print("COMPUTER MOVE")
                             random_actions = self.state.get_possible_actions()
