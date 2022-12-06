@@ -1,2 +1,41 @@
-Player 16 3
-|('Random Agent', 0)| |('Player', 1)| |('None', 0)|
+|Random Agent| 12 17
+|Random Agent| 13 18
+Player 17 2
+Player 19 7
+|Random Agent| 14 15
+|Random Agent| 14 19
+Player 16 7
+Player 17 8
+Player 15 1
+Player 17 1
+Player 16 7
+Player 15 3
+Player 15 8
+Player 15 10
+Player 15 13
+Player 15 4
+Player 15 10
+Player 16 9
+Player 15 3
+Player 15 10
+|Random Agent| 0 16
+Player 15 6
+Player 15 10
+Player 16 0
+|Random Agent| 5 16
+Player 15 14
+Player 15 6
+Player 15 5
+|Random Agent| 4 15
+Player 15 12
+|Random Agent| 5 15
+|Random Agent| 0 15
+Player 15 6
+Player 15 14
+|Random Agent| 0 15
+Player 16 4
+Player 17 6
+Player 15 6
+Player 15 5
+|Random Agent| 8 15
+|('Player', 29)| |('Random Agent', 11)| |('None', 0)|

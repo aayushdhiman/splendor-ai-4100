@@ -72,6 +72,7 @@ class state:
                 
                 for i in range(len(self.table)):
                         if(len(self.deck[i]) < 3):
+                                print("ERROR")
                                 continue
                         for j in range(len(self.table[i])):
                                 locatedCard = self.GetCardAtTableLocation([i,j])
@@ -138,7 +139,7 @@ class state:
                 return False
 
         def eval(self):
-                ans = 100 * self.getWinLoss() - 2 * self.getComputerHand().getPrestige() - len(self.getComputerHand().getDeck()) - self.getComputerHand().getNumTokens() + 50 * self.getPlayerHand().getPrestige() + len(self.getPlayerHand().getDeck()) + self.getPlayerHand().getNumTokens()
+                ans = 300 * self.getWinLoss() - (40 * self.getComputerHand().getPrestige() + len(self.getComputerHand().getDeck()) + self.getComputerHand().getNumTokens()) + (40 * self.getPlayerHand().getPrestige() + len(self.getPlayerHand().getDeck()) + self.getPlayerHand().getNumTokens())
                 return ans   
                 
         def getWinLoss(self):

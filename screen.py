@@ -324,13 +324,13 @@ class graphics:
 
 winner = {"Player":0, "Random Agent":0, "None" : 0};
 record = []
-for i in range(1):
+for i in range(100):
     display = graphics(True)
     result = display.showScreen()
     winner[result.GetWinner()] += 1
     record.append([result.GetWinner(), result.playerHand.getPrestige(), result.computerHand.getPrestige()])
     
-with open('record.csv', 'w', newline='') as csvfile:
+with open('record4.csv', 'w', newline='') as csvfile:
     spamwriter = csv.writer(csvfile, delimiter=' ',
                             quotechar='|', quoting=csv.QUOTE_MINIMAL)
     for i in range(len(record)):
