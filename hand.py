@@ -12,6 +12,8 @@ class hand:
                 
                 for key,value in self.token.items():
                         newHand.token.update({key:value}) 
+                for key,value in self.deckTokens.items():
+                        newHand.deckTokens.update({key:value}) 
                 newHand.deck = [card for card in self.deck]                
                 newHand.prestigePoint = self.prestigePoint
                 return newHand       

@@ -43,20 +43,19 @@ class graphics:
                     elif event.key == K_SPACE:
                         if self.state.isPlayerTurn:
                                 action = self.expectimax.getAction(self.state.copy())
-                                print(action)
-                                
-                                self.state = self.state.ParseAction(action)
-                                print(self.state.computerHand.getNumTokens())
-                                print(self.state.playerHand.getNumTokens())
 
+                                self.state = self.state.ParseAction(action)
+                   
                         else:
-                            print("COMPUTER MOVE")
+
                             random_actions = self.state.get_possible_actions()
                             action = random.choice(random_actions)
                             self.state = self.state.ParseAction(action)
-                            print(action)
+
                     if event.key == K_q:
-                        print(len(self.state.getPlayerHand().deck))
+                        print(self.state.getPlayerHand().deckTokens)
+                        for card in self.state.playerHand.deck:
+                            print(card)
 
                 elif event.type == QUIT:
                     running = False

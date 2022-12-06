@@ -107,11 +107,11 @@ class state:
                         turnHand = self.playerHand
                 else:
                         turnHand = self.computerHand
-                 
+                
                 for mineralType, cost in chosenCard.cost.items():
                         leftOverCost = cost
                         leftOverCost -= turnHand.deckTokens[mineralType] 
-                        turnHand.deckTokens[mineralType] -= leftOverCost
+                        turnHand.token[mineralType] -= leftOverCost
                         self.pool[mineralType] += leftOverCost
                 
                 turnHand.AddCard(chosenCard)
@@ -147,9 +147,14 @@ class state:
         def get_possible_actions(self):
                 actions = []
                 if(self.isPlayerTurn):
+                        
                         player : hand = self.playerHand
                 else:
                         player : hand = self.computerHand
+                        print("COMPUTER " + str(player.getNumTokens()))
+
+
+                
 
                 if(player.getNumTokens() < 10):
                         # First type : take_3
