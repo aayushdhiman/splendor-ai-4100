@@ -14,7 +14,6 @@ class expectimax():
             legal moves.
             """
             "*** YOUR CODE HERE ***"
-
             value, move = self.max_value(state, 0)
             return move
 

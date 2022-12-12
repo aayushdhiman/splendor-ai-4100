@@ -13,7 +13,7 @@ class state:
 
         
 
-        def __init__(self, pool : dict, table : list, deck : list, playerHand : hand, computerHand : hand, playerTurn : bool, wasNothing : bool):
+        def __init__(self, pool : dict, table : list, deck : list, playerHand : hand, computerHand : hand, playerTurn : bool, wasNothing : int):
                 """
                 
                 """
@@ -139,7 +139,7 @@ class state:
                 return False
 
         def eval(self):
-                ans = 300 * self.getWinLoss() - (40 * self.getComputerHand().getPrestige() + len(self.getComputerHand().getDeck()) + self.getComputerHand().getNumTokens()) + (40 * self.getPlayerHand().getPrestige() + len(self.getPlayerHand().getDeck()) + self.getPlayerHand().getNumTokens())
+                ans = 1000 * self.getWinLoss() - (10 * self.getComputerHand().getPrestige() + len(self.getComputerHand().getDeck()) + self.getComputerHand().getNumTokens()) + (50 * self.getPlayerHand().getPrestige() + len(self.getPlayerHand().getDeck()) + self.getPlayerHand().getNumTokens())
                 return ans   
                 
         def getWinLoss(self):
